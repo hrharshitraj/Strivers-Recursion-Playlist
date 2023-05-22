@@ -1,0 +1,59 @@
+// Strivers Recursion Playlist-
+// Lecture 3 -> https://www.youtube.com/watch?v=69ZCDFy-OUo&list=PLgUwDviBIf0rGlzIn_7rsaR2FQ5e6ZOL9&index=3
+
+import java.util.*;
+
+public class MyClass {
+    // 1. Function to print numbers from n to 1-
+    public static void fromnto1(int to, int from) {
+        if(to<from) return;
+        System.out.print(to + " ");
+        fromnto1(to-1,from);
+    }
+    
+    // 2. Function to print numbers from 1 to n-
+    public static void from1ton(int from, int to) {
+        if(to<from) return;
+        System.out.print(from + " ");
+        from1ton(from+1,to);
+    }
+    
+    // 3. Parameterised recursion to print sum from 1 to n-
+    public static void sumTilln(int n, int sum) {
+        if(n<1) {
+            System.out.print(sum);
+            return;
+        }
+        sumTilln(n-1,sum+n);
+    }
+    
+    // 4. Functional recursion to print sum from 1 to n-
+    public static int sumTilln(int n) {
+        if(n==0) return n;
+        return n + sumTilln(n-1);
+    }
+    
+    // Function to print factorial of a given number-
+    static int fact(int n) {
+        if(n==1) return 1;
+        return n * fact(n-1);
+    }
+    
+    
+    public static void main(String args[]) {
+      Scanner sc = new Scanner(System.in);
+    //   int from = sc.nextInt();
+    //   int to = sc.nextInt();
+      
+    //   from1ton(from,to);    // 2
+    //   System.out.println();
+    //   fromnto1(to,from);   // 1
+    
+    int n = sc.nextInt();
+    // sumTilln(n,0);    // 3
+    // int sum = sumTilln(n);   // 4
+    // System.out.print(sum);
+    int factorial = fact(n);   // 5
+    System.out.print(factorial);
+    }
+}
