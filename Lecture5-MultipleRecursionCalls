@@ -1,0 +1,20 @@
+// Strivers Recursion playlist
+// https://www.youtube.com/watch?v=kvRjNm4rVBE&list=PLgUwDviBIf0rGlzIn_7rsaR2FQ5e6ZOL9&index=5
+
+import java.util.*;
+
+public class MyClass {
+    // 1. Fibonacci Number-
+    static int fibonacci(int n) {
+        if(n<=1) return n;
+        return fibonacci(n-1) + fibonacci(n-2);   // You have to know f(n-1)+f(n-2) in order to find f(n).
+    }
+    
+    public static void main(String args[]) {
+        int n = 9;
+        int num = fibonacci(n);   // 1
+        System.out.print(num);
+    }
+}
+
+// Whichever recursion call is made first will be exceuted, gives an output then the other recursion call would be executed if any.
