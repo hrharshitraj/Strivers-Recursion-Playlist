@@ -1,0 +1,51 @@
+// Strivers Recursion playlist
+// https://www.youtube.com/watch?v=twuC1F6gLI8&list=PLgUwDviBIf0rGlzIn_7rsaR2FQ5e6ZOL9&index=4
+
+import java.util.*;
+
+public class MyClass {
+    // 1. Reversing an array using recursion where you need to use two pointers approach-
+    public static int[] revII(int arr[], int i, int j) {
+        if(i>=j) return arr;
+        int temp = arr[i];
+        arr[i] = arr[j];
+        arr[j] = temp;
+        revII(arr,i+1,j-1);
+        
+        return arr;
+    }
+    
+    // 2. Reversing an array using recursion where you need to just use a single pointer-
+    public static int[] revI(int arr[], int i) {
+        int n = arr.length;
+        if(i>=(n-i-1)) return arr;
+        int temp = arr[i];
+        arr[i] = arr[n-i-1];
+        arr[n-i-1] = temp;
+        revI(arr,i+1);
+        
+        return arr;
+    }
+    
+    // 3. If a string is a Palondrome-
+    public static boolean palindrome(String str, int i) {
+        int n = str.length();
+        if(i>=n/2) return true;
+        if(str.charAt(i)!=str.charAt(n-i-1)) return false;
+        return palindrome(str,i+1);   // It returns if the next values(characters) of the String are same or not.
+    }
+    
+    public static void main(String args[]) {
+    //   int arr[] = {1,2,3,4,2,6};
+    //   int n = arr.length;
+      
+    //   int ans[] = revII(arr,0,n-1);   // 1
+    //   int ansI[] = revI(arr,0);       // 2
+    //   for(int i=0; i<n; i++) {
+    //       System.out.print(ans[i] + " ");
+    //   }
+    
+    String str = "madam";
+    System.out.print(palindrome(str,0));   // 3
+    }
+}
