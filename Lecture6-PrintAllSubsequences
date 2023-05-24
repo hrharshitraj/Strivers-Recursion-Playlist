@@ -1,0 +1,41 @@
+// Strivers Recursion Playlist
+// https://www.youtube.com/watch?v=AxNNVECce8c&list=PLgUwDviBIf0rGlzIn_7rsaR2FQ5e6ZOL9&index=6
+// Print all the Subsequences of an array using Recursion-
+
+import java.util.*;
+
+public class MyClass {
+    static void subs(int arr[], int idx, ArrayList<Integer>list) {
+        int n = arr.length;
+        if(idx==n) {  // Print the subsequence when reach the leaf of recursion tree
+            System.out.print(list);
+            // for(int i=0; i<list.size(); i++) {
+                // System.out.print(list.get(i) + " ");
+            // }
+            // if(list.size()==0) System.out.print("{}");
+            System.out.println();
+            return;
+        }
+        
+        list.add(arr[idx]);  // Take the particular element in the subsequence(list)
+        subs(arr,idx+1,list);
+        list.remove(list.size()-1); // Do not remove arr[idx] element, you need to remove last element that the list have so remove list.size()-1th element.
+        // Don't take the particular element in the subsequence(list)
+        subs(arr,idx+1,list);
+    }
+    
+    public static void main(String args[]) {
+      int arr[] = {3,1,2};
+      ArrayList<Integer> list = new ArrayList();
+      
+      subs(arr,0,list);
+    }
+}
+
+/*
+Time Complexity: 
+O(2^n)            
+
+Space Complexity: 
+O(n) , Because of the recursion stack.
+*/
