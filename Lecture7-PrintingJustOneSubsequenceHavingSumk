@@ -1,0 +1,42 @@
+// Strivers Recursion playlist
+// https://www.youtube.com/watch?v=eQCS_v3bw0Q&list=PLgUwDviBIf0rGlzIn_7rsaR2FQ5e6ZOL9&index=7
+// Now, you need to just print any one of the subsequences whose sum is k
+
+/* Technique to just print only one answer from the recursion calls-
+In the base case, if the condition is satisfied, return a true, otherwise return false;
+During the recursion(function) call, put it into a if(function()==false) then only recursive call would be called;
+*/
+
+import java.util.*;
+
+public class MyClass {
+    static boolean subsK(int arr[], int sum, ArrayList<Integer> list, int idx, int s) {
+        int n = arr.length;
+        // Condition Satisfied-
+        if(idx==n) {
+            if(s==sum) {
+                System.out.print(list);
+                return true;
+            }
+            // Condition not Satisfied-
+            return false;
+        }
+        
+        list.add(arr[idx]);
+        s += arr[idx];   
+        if(subsK(arr,sum,list,idx+1,s)) return true;  // If this recursion call returns a true, simply return true and no further recursion calls are needed;
+        s -= list.get(list.size()-1);   ;
+        list.remove(list.size()-1);
+        if(subsK(arr,sum,list,idx+1,s)) return true;  // If this recursion call returns a true, return true and no further recursion calls are needed.
+        
+        return false;    // If none of the Recursion call returned true, means no condition is satisfying the need then simply return false as there is not any subsequence whose sum is equal to the required sum k.
+    }
+    
+    public static void main(String args[]) {
+      int arr[] = {1,2,1};
+      int sum = 2;
+      
+      ArrayList<Integer> list = new ArrayList();
+      subsK(arr,sum,list,0,0);
+    }
+}
