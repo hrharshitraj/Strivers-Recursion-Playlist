@@ -1,0 +1,47 @@
+// Strivers Recursion playlist
+// https://www.youtube.com/watch?v=eQCS_v3bw0Q&list=PLgUwDviBIf0rGlzIn_7rsaR2FQ5e6ZOL9&index=7
+// Count the subsequence having sum equals to k-
+
+/* On the base case-
+return 1 if the condition satisfied
+return 0 if the condition not satisfied
+
+Call the left function, call the right function
+return left + right;
+
+If the sum is equal to k, recursive call would return 1;
+So, then 1 would be added and all the calls which satisfies the condition adds up 1 by 1 
+to eventually give you the count of subsequences having sum equals to k;
+*/
+
+import java.util.*;
+
+public class MyClass {
+    static int subsK(int arr[], int sum, ArrayList<Integer> list, int idx, int s) {
+        int n = arr.length;
+        if(idx==n) {
+            if(s==sum) {
+                return 1;
+            }
+            return 0;
+        }
+        
+        list.add(arr[idx]);
+        s += arr[idx];   
+        int left = subsK(arr,sum,list,idx+1,s);   // left = 1 if condition is satisfied;
+        s -= list.get(list.size()-1);
+        list.remove(list.size()-1);
+        int right = subsK(arr,sum,list,idx+1,s);
+        
+        return left+right;
+    }
+    
+    public static void main(String args[]) {
+      int arr[] = {1,2,1};
+      int sum = 2;
+      
+      ArrayList<Integer> list = new ArrayList();
+      int subsEqualsk = subsK(arr,sum,list,0,0);
+      System.out.print(subsEqualsk);
+    }
+}
