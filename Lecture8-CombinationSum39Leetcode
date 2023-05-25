@@ -1,0 +1,37 @@
+// Strivers Recursion playlist
+// https://leetcode.com/problems/combination-sum/description/
+// https://www.youtube.com/watch?v=OyZFFqQtu98&list=PLgUwDviBIf0rGlzIn_7rsaR2FQ5e6ZOL9&index=10
+
+class Solution {
+    public static void valid(int[] candidates, int remTar, int idx, List<List<Integer>> topList, List<Integer> list) {
+        int n = candidates.length;
+        if(idx==n) {
+            if(remTar==0) {
+                topList.add(new ArrayList<>(list));
+            }
+            return;
+        }
+
+        // Before reaching at the base case, if you have got the list which adds up to target then, no need to further recursion calls there. So, print the list and simply return;
+        if(remTar==0) {
+            topList.add(new ArrayList<>(list));
+            return;
+        }
+
+        // Only keep adding the same element if the remaining target is greater than that element, otherwise there's no point in making further recursion calls;
+        if(remTar >= candidates[idx]) {
+            list.add(candidates[idx]);
+            valid(candidates,remTar-candidates[idx],idx,topList,list);
+            list.remove(list.size()-1);   // "Backtrack" -> Make sure to remove that particular element once you return back from the function so that if you chose not to take the element, remaining target remains same;
+        } 
+        
+        valid(candidates,remTar,idx+1,topList,list);   // If you decide not to take the element, increase the index and go to next element;
+    }
+
+    public List<List<Integer>> combinationSum(int[] candidates, int target) {
+        List<List<Integer>> topList = new ArrayList<>();
+        valid(candidates,target,0,topList,new ArrayList<>());
+
+        return topList;
+    }
+}
