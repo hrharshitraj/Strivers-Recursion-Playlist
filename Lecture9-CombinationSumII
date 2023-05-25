@@ -1,0 +1,35 @@
+// Strivers Recursion Playlist
+// https://leetcode.com/problems/combination-sum-ii/description/
+// https://www.youtube.com/watch?v=G1fRTGRxXU8&list=PLgUwDviBIf0rGlzIn_7rsaR2FQ5e6ZOL9&index=11
+
+// 2nd way to deal subsequences problem, i.e to take subsequences or not take it while the 1st was to take an element in the Recursion call or not take it.
+// Here we don't choose to either take or not take but we have to decide which indexes element to take and which to not take to avoid duplicacy in the list.
+// Once you sort the array, if there is multiple elements of same value, simply take the 1st one into the recursion call and not take rest of them.
+// Time Complexity -> 2^n * k -> 2^n for all the subsequences and k to store k lists.
+
+class Solution {
+    private void uniqueComb(int[] candidates, int remTar, int idx, List<List<Integer>> topList, List<Integer> list) {
+        int n = candidates.length;
+        if(remTar==0) {
+            topList.add(new ArrayList<>(list));
+            return;
+        }
+
+        for(int i=idx; i<n; i++) {   // Loop is needed to reach at every element to just check all the coming elements which can be there to add upto target.
+            if(i>idx && candidates[i]==candidates[i-1]) continue;   // To skip the element that is same as the last one to avoid duplicate subsequences in the list.
+            if(candidates[i]>remTar) break;
+
+            list.add(candidates[i]);
+            uniqueComb(candidates,remTar-candidates[i],i+1,topList,list);
+            list.remove(list.size()-1);
+        }
+    }
+
+    public List<List<Integer>> combinationSum2(int[] candidates, int target) {
+        List<List<Integer>> topList = new ArrayList();
+        Arrays.sort(candidates);
+        uniqueComb(candidates,target,0,topList,new ArrayList<>());
+
+        return topList;
+    }
+}
