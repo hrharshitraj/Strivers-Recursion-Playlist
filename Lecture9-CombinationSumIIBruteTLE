@@ -1,0 +1,37 @@
+class Solution {
+    public static void uniqueComb(int[] candidates, int remTar, int idx, Set<List<Integer>> topList, List<Integer> list) {
+        Arrays.sort(candidates);   // Lexicographical order must be followed in a particular list to have the unique solution in the set.
+        int n = candidates.length;
+        if(idx==n) {
+            if(remTar==0) topList.add(new ArrayList<>(list));
+            return;
+        }
+
+        if(remTar==0) {
+            topList.add(new ArrayList<>(list));
+            return;
+        }
+
+        if(remTar>=candidates[idx]) {
+            list.add(candidates[idx]);
+            uniqueComb(candidates,remTar-candidates[idx],idx+1,topList,list);
+            list.remove(list.size()-1);
+        }
+
+        uniqueComb(candidates,remTar,idx+1,topList,list);
+    }
+
+    public List<List<Integer>> combinationSum2(int[] candidates, int target) {
+        Set<List<Integer>> topList = new HashSet();
+        uniqueComb(candidates,target,0,topList,new ArrayList<>());
+
+        // Once you got all the unique combinations, put those into sets an Arraylist;
+        // Extra logn complexity makes it a brute solution -> TLE;
+        ArrayList<List<Integer>> ans = new ArrayList<>(topList);
+        return ans;
+    }
+}
+
+// TLE-
+//candidates = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
+// target = 27
