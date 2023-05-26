@@ -1,0 +1,27 @@
+// Strivers Recursion playlist
+// https://www.youtube.com/watch?v=rYkfBRtMJr8&list=PLgUwDviBIf0rGlzIn_7rsaR2FQ5e6ZOL9&index=12
+// https://practice.geeksforgeeks.org/problems/subset-sums2234/1
+
+class Solution{
+    static void sums(ArrayList<Integer> arr, int idx, int n, ArrayList<Integer> list, int sum) {
+        if(idx==n) {
+            list.add(sum);
+            return;
+        }
+        
+        sum += arr.get(idx);
+        sums(arr,idx+1,n,list,sum);
+        sum -= arr.get(idx);
+        sums(arr,idx+1,n,list,sum);
+        
+        // sums(arr,idx+1,n,list,sum+arr.get(idx);   // To pick the element in subset
+        // sums(arr,idx+1,n,list,sum);   // To not pick the element in subset
+    }
+    
+    ArrayList<Integer> subsetSums(ArrayList<Integer> arr, int N){
+        ArrayList<Integer> list = new ArrayList();
+        sums(arr,0,N,list,0);
+        
+        return list;
+    }
+}
