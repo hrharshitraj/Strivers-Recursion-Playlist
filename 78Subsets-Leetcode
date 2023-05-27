@@ -1,0 +1,28 @@
+class Solution {
+    public void subset(int nums[], int n, int idx, ArrayList<List<Integer>> topList, List<Integer> list) {
+        if(idx==n) {
+            topList.add(new ArrayList<>(list));
+            return;
+        }
+
+        list.add(nums[idx]);
+        subset(nums,n,idx+1,topList,list);
+        list.remove(list.size()-1);
+        
+        subset(nums,n,idx+1,topList,list);
+    }
+
+    public List<List<Integer>> subsets(int[] nums) {
+        ArrayList<List<Integer>> topList = new ArrayList<>();
+        int n = nums.length;
+        Arrays.sort(nums);
+
+        subset(nums,n,0,topList,new ArrayList<>());
+        return topList;
+    }
+}
+
+Related Topics-
+Array
+Backtracking
+Bit Manipulation
