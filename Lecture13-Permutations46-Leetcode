@@ -1,0 +1,42 @@
+// Strivers Recursion playlist-
+// https://www.youtube.com/watch?v=f2ic2Rsc9pU&list=PLgUwDviBIf0rGlzIn_7rsaR2FQ5e6ZOL9&index=15
+// https://leetcode.com/problems/permutations/description/
+
+// This is 2nd and better method to find all the permutation using Recursion-
+// Here, an extra O(n) space complexity is not used as no boolean array is needed to store any mapping.
+
+class Solution {
+    public void swap(int a, int b, int nums[]) {
+        int temp = nums[a];
+        nums[a] = nums[b];
+        nums[b] = temp;
+    }
+
+    public void permutation(int nums[], int n, int idx, List<List<Integer>> topList) {
+        if(idx==n) {
+            ArrayList<Integer> list = new ArrayList();
+            for(int i=0; i<n; i++) {    // You need to add all the elements of nums into list and then add that list to topList.
+            // All the elements before being added would have swapped properly when idx equals to n.
+                list.add(nums[i]);
+            }
+            topList.add(list);
+            return;
+        }
+
+        for(int i=idx; i<n; i++) {    // For pointer to go at every index and swap.
+            swap(i,idx,nums);
+            // list.add(nums[i]);   // Elements will not be added before every recursion call
+            permutation(nums,n,idx+1,topList);
+            swap(i,idx,nums);
+            // list.remove(list.size()-1);   
+        }
+    }
+
+    public List<List<Integer>> permute(int[] nums) {
+        int n = nums.length;
+        List<List<Integer>> topList = new ArrayList();
+
+        permutation(nums,n,0,topList);
+        return topList;
+    }
+}
