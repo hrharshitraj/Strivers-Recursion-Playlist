@@ -1,0 +1,31 @@
+// 1st method to find all the permutation using Recursion-
+// Here, an extra O(n) space complexity is used as a boolean array to store mapping has been used.
+// There's a better solution where only through adding elements into the list, we will get all the permutations.
+
+class Solution {
+    public void permutation(int nums[], int n, boolean freq[], List<List<Integer>> topList, List<Integer> list) {
+        if(list.size()==n) {
+            topList.add(new ArrayList<>(list));
+            return;
+        }
+
+        for(int i=0; i<n; i++) {
+            if(!freq[i]) {  // Only if element is not mapped(added), go and add it into the list by marking it true.
+                freq[i] = true;   
+                list.add(nums[i]);
+                permutation(nums,n,freq,topList,list);
+                list.remove(list.size()-1);  // Once recursion call is executed and you got a permutation, remove the element from list and unmark itfrom the boolean array for further calls to execute.
+                freq[i] = false;
+            }
+        }
+    }
+
+    public List<List<Integer>> permute(int[] nums) {
+        int n = nums.length;
+        List<List<Integer>> topList = new ArrayList();
+        boolean freq[] = new boolean[n];
+
+        permutation(nums,n,freq,topList,new ArrayList<>());
+        return topList;
+    }
+}
