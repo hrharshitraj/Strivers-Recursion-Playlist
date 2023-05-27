@@ -1,0 +1,27 @@
+// Strivers Recursion playlist
+// https://www.youtube.com/watch?v=RIn3gOkbhQE&list=PLgUwDviBIf0rGlzIn_7rsaR2FQ5e6ZOL9&index=13
+// https://leetcode.com/problems/subsets-ii/description/
+
+class Solution {
+    public void subset(int nums[], int n, int idx, ArrayList<List<Integer>> topList, List<Integer> list) {
+        topList.add(new ArrayList<>(list));   // Generates a list(subset) at every recursion call.
+        // There is no need to reach at base case first and then add to list as subset;
+        for(int i=idx; i<n; i++) {   // At every level you have to pick elements from indexes idx to n-1;  
+        // If you wonder there is no base case, so once i exceeds to n, recursive call automatically stops.
+            if(i!=idx && nums[i]==nums[i-1]) continue;   // Ignore duplicacy
+            
+            list.add(nums[i]);
+            subset(nums,n,i+1,topList,list);   // You have to pick till you reach at n-1th index;
+            list.remove(list.size()-1);
+        }
+    }
+
+    public List<List<Integer>> subsetsWithDup(int[] nums) {
+        int n = nums.length;
+        Arrays.sort(nums);
+        ArrayList<List<Integer>> topList = new ArrayList<>();
+
+        subset(nums,n,0,topList,new ArrayList<>());
+        return topList;
+    }
+}
