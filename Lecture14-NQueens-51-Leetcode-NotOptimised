@@ -1,0 +1,76 @@
+// Strivers Recursion playlist-
+// https://www.youtube.com/watch?v=i05Ju7AftcM&list=PLgUwDviBIf0rGlzIn_7rsaR2FQ5e6ZOL9&index=16
+// https://leetcode.com/problems/n-queens/description/
+
+// Can be Optimised because here, we are using extra O(n)+O(n)+O(n) to check three places to find if the current position is safe to place the queen everytime-
+
+class Solution {
+    private boolean isValid(int n, char board[][], int row, int col) {
+        int dupRow = row;
+        int dupCol = col;
+
+        // Lower Diagonals are checked if they are safe-
+        while(row>=0 && col>=0) {
+            if(board[row][col]=='Q') return false;
+            row--;
+            col--;
+        }
+
+        row = dupRow;  
+        col = dupCol;
+        // Left columns-
+        while(col>=0) {
+            if(board[row][col]=='Q') return false;
+            col--;
+        }
+
+        col = dupCol;
+        // Upper Columns-
+        while(col>=0 && row<n) {
+            if(board[row][col]=='Q') return false;
+            row++;
+            col--;
+        }
+
+        return true;
+    }
+
+    private void nQueens(int n, char board[][], int col,List<List<String>> validpuz) {
+        if(col==n) {
+            // List<String> valid = new ArrayList();   // You need to introduce a new list everytime you get a valid list of queens to be placed
+            // for(int i=0; i<n; i++) {
+            //     String str = new String(board[i]);
+            //     valid.add(str);
+            // }
+            // validpuz.add(valid);    // Either call construct function or write it here only.
+            validpuz.add(construct(n,board));
+            return;
+        }
+
+        for(int row=0; row<n; row++) {    // Every row has to be checked from 0 to n-1 as there could be possibility to keep queen anywhere if safe.
+            if(isValid(n,board,row,col)) {
+                board[row][col] = 'Q';
+                nQueens(n,board,col+1,validpuz);   // The moment you find a safe place to put a queen, go to next column to check further safe places to eventually complete the grid.
+                board[row][col] = '.';    // Backtrack
+            }
+        }
+    }
+
+    private List<String> construct(int n, char[][] board) {
+        List<String> valid = new ArrayList();
+        for(int i=0; i<n; i++) {
+            String str = new String(board[i]);   // All the '.' and 'Q' of ith column will be stored in str.
+            valid.add(str);   // str will be added to list called valid
+        }
+        return valid;
+    }
+
+    public List<List<String>> solveNQueens(int n) {
+        List<List<String>> validpuz = new ArrayList();
+        char[][] board = new char[n][n];   // Grid of nxn
+        for(int i=0; i<n; i++) Arrays.fill(board[i], '.');    // Put '.'' at every column of ith row
+
+        nQueens(n,board,0,validpuz);
+        return validpuz;
+    }
+}
