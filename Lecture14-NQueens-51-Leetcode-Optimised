@@ -1,0 +1,48 @@
+// Strivers Recursion playlist
+// https://www.youtube.com/watch?v=i05Ju7AftcM&list=PLgUwDviBIf0rGlzIn_7rsaR2FQ5e6ZOL9&index=16
+// https://leetcode.com/problems/n-queens/description/
+
+class Solution {
+    private void nQueens(int n, char[][] board, int col, List<List<String>> validpuz,int[] leftRow, int[] lowerDiagonal, int[] upperDiagonal) {
+        if(col==n) {
+            List<String> valid = new ArrayList();
+            for(int i=0; i<n; i++) {
+                String str = new String(board[i]);
+                valid.add(str);
+            }
+            validpuz.add(valid);
+            return;
+        }
+
+// As discussed already, we have to check if 3 places have no queen placed to be the current position to be safe.
+// Even if there's a single queen placed in the same row as current, 1 in front of that row would be marked so that next time we don't need to check through whole looping thing to find it.
+// Similarly for lowerDiagonal and upperDiagonal, details in copy (8x8 explained it better)
+        for(int row=0; row<n; row++) {
+            if(leftRow[row]==0 && lowerDiagonal[row + col]==0 && upperDiagonal[n-1 + col-row]==0) {
+                board[row][col] = 'Q';
+                leftRow[row] = 1;
+                lowerDiagonal[row + col] = 1;
+                upperDiagonal[n-1 + col-row] = 1;
+                nQueens(n,board,col+1,validpuz,leftRow,lowerDiagonal,upperDiagonal);
+                board[row][col] = '.';
+                leftRow[row] = 0;
+                lowerDiagonal[row + col] = 0;
+                upperDiagonal[n-1 + col-row] = 0;
+            }
+        }
+        
+    }
+
+    public List<List<String>> solveNQueens(int n) {
+        List<List<String>> validpuz = new ArrayList();
+        char[][] board = new char[n][n];
+        for(int i=0; i<n; i++) Arrays.fill(board[i],'.');
+
+        int[] leftRow = new int[n];   // Left rows
+        int[] lowerDiagonal = new int[2*n-1];   // Lower Diagonals
+        int[] upperDiagonal = new int[2*n-1];   // Upper Diagonals
+
+        nQueens(n,board,0,validpuz,leftRow,lowerDiagonal,upperDiagonal);
+        return validpuz;
+    }
+}
