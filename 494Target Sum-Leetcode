@@ -1,0 +1,39 @@
+// There's a little catch in this quesion.
+// Usually you do an operation, call a recursive function, executes it and when done backtracks that operation so that next tasks could be performed.
+// Here when you have to use '+' symbol, you have to subtract nums[idx] from remaining target, check if remaining target is 0 when every element is being taken into consideration and then once it's done you need to backtrack by adding that element back to remaining target.
+// It's all we used to do earlier but here in this problem, now after assigning '+' symbol, now when you assing '-' symbol then you this time have to add the element to your remaining target and when you come back again subtract that from remaining target.
+// So here two Operations and two times backtracking is done.
+
+class Solution {
+    private int tarSum(int[] nums, int n, int idx, int remTar) {
+        int count = 0;
+        if(idx==n) {
+            if(remTar==0) return 1;    // If remaining target after every element is assigned symbols is 0, it means it's equal to target so you get a valid expression.
+            return 0;
+        }
+
+        // When you decide to add '+' symbol-
+        remTar -= nums[idx];
+        count += tarSum(nums,n,idx+1,remTar);
+        remTar += nums[idx];
+
+        // When you decide to add '-' symbol-
+        remTar += nums[idx];
+        count += tarSum(nums,n,idx+1,remTar);
+        remTar -= nums[idx];
+
+        return count;
+    }
+
+    public int findTargetSumWays(int[] nums, int target) {
+        int n = nums.length;
+        int totWays = tarSum(nums,n,0,target);
+
+        return totWays;
+    }
+}
+
+Related Topics-
+Array
+Dynamic Programming
+Backtracking
