@@ -1,0 +1,40 @@
+// Strivers Recursion playlist-
+// https://leetcode.com/problems/sudoku-solver/
+// https://www.youtube.com/watch?v=FWAIf_EVUKE&list=PLgUwDviBIf0rGlzIn_7rsaR2FQ5e6ZOL9&index=17
+
+class Solution {
+    private boolean sudoku(char[][] board) {
+        for(int row=0; row<9; row++) {       
+            for(int col=0; col<9; col++) {
+        // You have to start from 0th row 0th column and go till 8th row 8th column.
+                if(board[row][col]=='.') {   // Only if the box is not filled with a number, go to fill it with a valid number.
+                    for(char c='1'; c<='9'; c++) {   // You have to check by putting every number from 1 to 9 if it's valid to put that number in the box.
+                        if(valid(board,row,col,c)) {
+                            board[row][col] = c;  // If valid, put the character(number) in that box;
+
+                            if(sudoku(board)) return true;   // Now recursive call would be made to find if by putting the number at the box, rest every box is valid or not, if yes then you have got a valid solution so return true;
+                            else board[row][col] = '.';  // Otherwise that number in that box is invalid, so put '.' at that box and again go to next number at repeat the same procedure;
+                        }
+                    }
+                    return false;   // Even after trying numbers from 1 to 9, you didn't get a valid number it means you will not be getting any valid solution here, so return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    private boolean valid(char[][] board, int row, int col, char c) {
+        for(int i=0; i<9; i++) {
+            if(board[i][col]==c) return false;    // Each of the digits 1-9 must occur exactly once in each column. 
+            
+            if(board[row][i]==c) return false;     // Each of the digits 1-9 must occur exactly once in each row.
+
+            if(board[3*(row/3) + i/3][3*(col/3) + i%3] == c) return false;     // Each of the digits 1-9 must occur exactly once in each of the 9 3x3 sub-boxes of the grid.
+        }
+        return true;
+    }
+
+    public void solveSudoku(char[][] board) {
+        sudoku(board);
+    }
+}
