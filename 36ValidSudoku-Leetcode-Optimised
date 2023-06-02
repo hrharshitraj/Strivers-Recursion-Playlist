@@ -1,0 +1,43 @@
+/* 
+Optimised Solution - Time Complexity -> O(n^2) -> To iterate over 81 cells
+                     Space Complexity -> O(n^2) -> To store 81 strings in set(n=9, 9x9)
+
+Naive Solution - Time Complexity -> O(n^3) -> O(n^2) to iterate over 81 cells and O(n) to find if valid number is there at each cell
+                 Space Complexity -> O(1) -> No extra space was required;
+*/
+class Solution {
+    private boolean helper(char[][] board) {
+        HashSet<String> set = new HashSet();   // No duplicate strings will be stored and the moment there would be any duplicacy, you'll get to know;
+        // Need to just iterate over each cell just once-
+        for(int row=0; row<board.length; row++) {
+            for(int col=0; col<board.length; col++) {   
+                if(board[row][col]!='.') {      // Only validate filled cells-
+                    if(!set.add("Row"+row+board[row][col]) || !set.add("Col"+col+board[row][col])) return false;    // If in set, string can't be added either because of row or because of column, it means it was already there, so, duplicacy found;
+                    int grid = (row/3)*3 + (col/3);     // Formula to find grid no. of that cell
+                    if(!set.add("Grid"+grid+board[row][col])) return false;   // If duplicacy in grid is there, String will not be added, so, false
+                }   
+            }
+        }
+        return true;
+    }
+
+    /* Mine -> Same thing but elaborated-
+        if(board[row][col]!='.') {
+            String currRow = "Row" + row + board[row][col];
+            String currCol = "Col" + col + board[row][col];
+            int grid = (row/3)*3 + (col/3);
+            String currGrid = "Grid" + grid + board[row][col];
+
+            if(set.contains(currRow) || set.contains(currCol) || set.contains(currGrid)) return false;
+            else {
+                set.add(currRow);
+                set.add(currCol);
+                set.add(currGrid);
+            }
+        }
+    */
+
+    public boolean isValidSudoku(char[][] board) {
+        return helper(board);
+    }
+}
