@@ -1,0 +1,78 @@
+class Solution {
+    // O(n) solutions are based on isSafe function of Question 38;
+    
+    // O(n) solution recursively-
+    /*
+    private static boolean helper(char[][] board, int row, int col) {
+        if(row==board.length) return true;
+        
+        int currRow = 0;
+        int currCol = 0;
+        
+        if(col==board.length-1) {
+            currRow = row+1;
+            currCol = 0;
+        }
+        else {
+            currRow = row;
+            currCol = col+1;
+        }
+        
+        if(board[row][col]!='.') {
+            for(int i=0; i<board.length; i++) {
+                if(i!=row && board[row][col]==board[i][col]) return false;
+            }
+        
+            for(int i=0; i<board.length; i++) {
+                if(i!=col && board[row][col]==board[row][i]) return false;
+            }
+        
+            int rowFind = 3 * (row/3);
+            int colFind = 3 * (col/3);
+
+            for(int i=rowFind; i<rowFind+3; i++) {
+                for(int j=colFind; j<colFind+3; j++) {
+                        if(i!=row && j!=col && board[row][col]==board[i][j]) return false;
+                }
+            }
+            if(helper(board,currRow,currCol)) return true;
+            else return false;
+        } 
+        else {
+            if(helper(board,currRow,currCol)) return true;
+            else return false;
+        }
+    }
+    */
+
+    private boolean helper(char[][] board) {
+        for(int row=0; row<board.length; row++) {
+            for(int col=0; col<board.length; col++) {
+                if(board[row][col]!='.') {
+                    for(int i=0; i<board.length; i++) {
+                        if(i!=row && board[row][col]==board[i][col]) return false;
+                    }
+        
+                    for(int i=0; i<board.length; i++) {
+                        if(i!=col && board[row][col]==board[row][i]) return false;
+                    }
+        
+                    int rowFind = 3 * (row/3);
+                    int colFind = 3 * (col/3);
+
+                    for(int i=rowFind; i<rowFind+3; i++) {
+                        for(int j=colFind; j<colFind+3; j++) {
+                                if(i!=row && j!=col && board[row][col]==board[i][j]) return false;
+                        }
+                    }
+                }
+            }
+        }
+        return true;
+    }
+
+    public boolean isValidSudoku(char[][] board) {
+        // return helper(board,0,0);    // Recursive O(n)
+        return helper(board);   // Linear O(n)
+    }
+}
