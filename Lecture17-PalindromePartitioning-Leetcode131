@@ -1,0 +1,45 @@
+// Strivers Recursion playlist-
+// https://www.youtube.com/watch?v=WBgsABoClE0&list=PLgUwDviBIf0rGlzIn_7rsaR2FQ5e6ZOL9&index=19
+// https://leetcode.com/problems/palindrome-partitioning/description/
+
+class Solution {
+    private boolean validPar(String s, int startidx, int endidx) {
+        while(startidx<endidx) {
+            if(s.charAt(startidx)!=s.charAt(endidx)) return false;
+            startidx++;
+            endidx--;
+        }
+        return true;
+    }
+
+    private void palpar(String s, List<List<String>> toplist, int idx, List<String> list) {
+        int n = s.length();
+        // Only if you can partition at the last index, all valid palindromic partition is done;
+        if(idx==n) {
+            toplist.add(new ArrayList(list));    // Add this list to toplist
+            return;
+        }
+
+        for(int i=idx; i<n; i++) {       // You need to loop from current idx to n-1 in order to get and check valid palindromes index wise;
+            if(validPar(s,idx,i)) {     // Only if the substring from current idx to i is palindromic, add it to list and call for next substring's check;
+                String subs = s.substring(idx,i+1);
+                list.add(subs);
+                palpar(s,toplist,i+1,list);     // Recursive call
+                list.remove(list.size()-1);     // Backtrack
+            }
+
+            /* No need
+            else {
+                palpar(s,toplist,idx+1,list);
+            }
+            */
+        }
+    }
+
+    public List<List<String>> partition(String s) {
+        List<List<String>> toplist = new ArrayList();
+        palpar(s,toplist,0,new ArrayList());
+
+        return toplist;
+  }
+}
