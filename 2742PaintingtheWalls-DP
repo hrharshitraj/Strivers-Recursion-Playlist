@@ -1,0 +1,47 @@
+// https://leetcode.com/contest/weekly-contest-350/ -> Q.4
+/* O(2^n) as at every index, either paid painter is painting or it's not painting(we assume that free painter would paint it);
+Time Limit Exceeded 2007/2556 testcases passed
+cost = [607,77,1307,214,948,727,1029,397,298,1196,681,1097,281,1543,264,866,544,582,474,877,1353,604,158,1144,666,816,373,320,755,1478,1453,512,1128,1037,1587,1450,961,509,354,523,1548]
+time = [1,5,3,4,1,6,6,5,3,1,6,4,5,2,1,6,3,5,5,2,6,5,5,6,1,3,4,6,5,4,6,2,4,6,2,1,4,4,2,2,6]
+
+/*
+Hint-
+(1/2)
+Can we break the problem down into smaller subproblems and use DP?
+(2/2)
+Paid painters will be used for a maximum of N/2 units of time. There is no need to use paid painter for a time greater than this.
+*/
+Memoization is used to store already visited possibility which would decrease time complexity to O(n^2);
+*/
+class Solution {
+    private int minCost(int[] cost, int[] time, int idx, int currCost, int rem) {
+        int n = cost.length;
+        int min = Integer.MAX_VALUE;
+        int a = 0;
+
+        if(rem<=0) {
+            min = Math.min(min,currCost);
+            return min;
+        }
+        if(idx==n) {
+            return min;
+        }
+
+        currCost += cost[idx];
+        rem = rem-(1+time[idx]);
+        a = minCost(cost,time,idx+1,currCost,rem);
+        currCost -= cost[idx];
+        rem = rem+(1+time[idx]);
+
+        int b = minCost(cost,time,idx+1,currCost,rem);
+        a = Math.min(a,b);
+
+        return a;
+    }
+
+    public int paintWalls(int[] cost, int[] time) {
+        int n = cost.length;
+        int min = minCost(cost,time,0,0,n);
+        return min;
+    }
+}
